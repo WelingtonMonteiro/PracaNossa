@@ -1,7 +1,12 @@
 
+<div id="erros">
+
+</div>
 <g:formRemote name="formHumorista" url="[controller: 'humorista', action: 'salvar']" onSuccess="exibirMensagem(data)">
 
+
     ID<input type="text" name="nome" value="${humorista.id}" disabled="true"/></label><br>
+    <g:message code = "humorista.nome"/>
     Nome<input type="text" name="nome" value="${humorista.nome}"/><br>
     Nivel<input type="number" name="nivel" value="${humorista.nivel}"/><br>
     Nome Artistico<input type="text" name="nomeArtistico" value="${humorista.nomeArtistico}"/><br>

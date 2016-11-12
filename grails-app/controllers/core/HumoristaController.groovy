@@ -1,6 +1,7 @@
 package core
 
 import grails.converters.JSON
+import org.hibernate.criterion.CriteriaSpecification
 
 class HumoristaController {
 
@@ -9,8 +10,39 @@ class HumoristaController {
     }
 
     def listar(){
-        def humoristas = Humorista.list()
-//        render humoristas as JSON
+//        //listar todos os humoristas
+//        def humoristas = Humorista.list()
+////        render humoristas as JSON
+//
+//        //listar humoristas por nome
+//         humoristas  = Humorista.createCriteria().list{
+//            order("nome", "desc")
+//            order("salario")
+//        }
+//
+//        //humoristas com a letra A
+//         humorista = Humorista.createCriteria().list {
+//            like("nome","%a%")
+////            iLike("nome", "%o%")
+//        }
+//
+//        //consultas no bancos com OR , AND
+//         humorista = Humorista.createCriteria().list{
+//            ilike("nome","%o%")
+//            gt("salario","1000")
+//            or{
+//                ilike("nome","%o%")
+//                gt("salario",1000d)
+//            }
+//        }
+
+        //consultas com join
+         def humoristas = Humorista.createCriteria().list {
+             setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY)
+            createAlias("piadas", "p", CriteriaSpecification.LEFT_JOIN)
+             ge("p.nivelGraca",100)
+        }
+
         render (view: "listar", model: [lista:humoristas])
     }
 
@@ -32,7 +64,13 @@ class HumoristaController {
         humorista.validate();
 
         if(humorista.hasErrors()){
-            def mensagem = ["erro" : humorista.errors.allErrors]
+            def listaErros = []
+            humorista.errors.each { erro ->
+                listaErros += g.message(code: erro.fieldError.defaultMessage, error: erro.fieldError)
+            }
+
+
+            def mensagem = ["erro" : listaErros]
              render mensagem as JSON
             return
         }

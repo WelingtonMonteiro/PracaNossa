@@ -4757,3 +4757,6 @@ n:544:grails/validation/Validateable
 n:566:org/codehaus/groovy/grails/validation/Validateable
 n:583:groovyjarjarantlr/TokenStreamRecognitionException
 n:523:groovyjarjarantlr/TokenStreamException
+n:1487:org/apache/commons/logging/Log$debug
+n:1167:org/hibernate/criterion/CriteriaSpecification
+n:314:org/hibernate/transform/ResultTransformer

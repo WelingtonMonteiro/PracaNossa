@@ -17,7 +17,14 @@
 
 
         function exibirMensagem(data) {
-            if (data.erro) return alert("Deu ruim");
+            if (data.erro){
+                $("#erros").html("");
+                var erros = data.erro;
+                erros.forEach(function(cadaErro, index){
+                   $("#erros").append(cadaErro.replace(/[|]/g,'') + "<br>")
+                });
+                return;
+            };
             carregarLista(data)
         }
 
