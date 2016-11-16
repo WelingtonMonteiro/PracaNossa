@@ -58,7 +58,7 @@ class HumoristaController {
         humorista.nomeArtistico = params.nomeArtistico
         humorista.nivel = params.nivel.toInteger()
         humorista.processos = params.processo.toInteger()
-        humorista.Salario = params.salario.toDouble()
+        humorista.Salario = params.salario?.replace(",",".")?.toDouble()
         humorista.DataNascimento = new Date()
 
         humorista.validate();

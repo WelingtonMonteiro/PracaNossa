@@ -25,9 +25,9 @@ environments {
     test {
         dataSource {
             dbCreate = "update" // one of 'create', 'create-drop','update'
-            url = "jdbc:mysql://localhost/pracaNossa"
+            url = "jdbc:mysql://localhost/testePracaNossa"
             username = "root"
-            password = ""
+            password = "wsKDSfun20"
         }
     }
     production {
