@@ -3,6 +3,7 @@ package core
 
 import grails.test.mixin.Mock
 import grails.test.mixin.TestFor
+import org.codehaus.groovy.grails.web.servlet.mvc.SynchronizerTokensHolder
 import spock.lang.Specification
 
 /**
@@ -21,6 +22,11 @@ class HumoristaControllerSpec extends Specification {
 
     void "Testando render view index"() {
         when:
+        def tokenHolder = SynchronizerTokensHolder.store(session)
+
+        params[SynchronizerTokensHolder.TOKEN_URI] = '/humorista/index'
+        params[SynchronizerTokensHolder.TOKEN_KEY] = tokenHolder.generateToken(params[SynchronizerTokensHolder.TOKEN_URI])
+
         controller.index()
         then:
         model.nome == "Joao"
@@ -30,6 +36,11 @@ class HumoristaControllerSpec extends Specification {
 
     void "Cadastrar novo humorista"(){
         when:
+        def tokenHolder = SynchronizerTokensHolder.store(session)
+
+        params[SynchronizerTokensHolder.TOKEN_URI] = '/humorista/salvar'
+        params[SynchronizerTokensHolder.TOKEN_KEY] = tokenHolder.generateToken(params[SynchronizerTokensHolder.TOKEN_URI])
+
         params.nome = "Golias"
         params.nomeArtistico = "Golias"
         params.nivel = "1"
@@ -44,6 +55,12 @@ class HumoristaControllerSpec extends Specification {
 
     void "Cadastrar novo humorista errado"(){
         when:
+        def tokenHolder = SynchronizerTokensHolder.store(session)
+
+        params[SynchronizerTokensHolder.TOKEN_URI] = '/humorista/salvar'
+        params[SynchronizerTokensHolder.TOKEN_KEY] = tokenHolder.generateToken(params[SynchronizerTokensHolder.TOKEN_URI])
+
+
         params.nome = "Golias"
         params.nomeArtistico = "Golias"
         params.nivel = "1"
@@ -58,7 +75,13 @@ class HumoristaControllerSpec extends Specification {
 
     void "Atualizar humorista"(){
         given:
-            params.nome = "Golias"
+        def tokenHolder = SynchronizerTokensHolder.store(session)
+
+        params[SynchronizerTokensHolder.TOKEN_URI] = '/humorista/salvar'
+        params[SynchronizerTokensHolder.TOKEN_KEY] = tokenHolder.generateToken(params[SynchronizerTokensHolder.TOKEN_URI])
+
+
+        params.nome = "Golias"
             params.nomeArtistico = "Golias"
             params.nivel = "1"
             params.processo = "10"
@@ -74,11 +97,16 @@ class HumoristaControllerSpec extends Specification {
         then:
             response.json.nome == params.nome
             response.json.id == params.id
-            response.nivel = 2
+            response.nivel == 2
     }
 
     void "Atualizar humorista que não existe"(){
         when:
+        def tokenHolder = SynchronizerTokensHolder.store(session)
+
+        params[SynchronizerTokensHolder.TOKEN_URI] = '/humorista/salvar'
+        params[SynchronizerTokensHolder.TOKEN_KEY] = tokenHolder.generateToken(params[SynchronizerTokensHolder.TOKEN_URI])
+
         params.id = "1"
         params.nome = "Golias"
         params.nomeArtistico = "Golias"

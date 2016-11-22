@@ -2,7 +2,7 @@
 <div id="erros">
 
 </div>
-<g:formRemote name="formHumorista" url="[controller: 'humorista', action: 'salvar']" onSuccess="exibirMensagem(data)">
+<g:form name="formHumorista" useToken="true">
 
 
     ID<input type="text" name="nome" value="${humorista.id}" disabled="true"/></label><br>
@@ -15,5 +15,6 @@
     Salário <input type="number" name="salario" value="${humorista.Salario}"/><br>
 
     <input type="hidden" name="id" value="${humorista.id}">
-    <input type="submit" name="enviar" value="Salvar">
-</g:formRemote>
+    <g:submitToRemote    url="[controller: 'humorista', action:'salvar']" value="Salvar ajax" onSuccess="exibirMensagem(data); cadastar()" />
+
+</g:form>

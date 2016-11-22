@@ -15,6 +15,16 @@
             $("input[name=nome]").focus();
         }
 
+        function cadastrar(){
+            $.ajax({
+                url: "/PracaNossa/humorista/cadastrar",
+                method: "post",
+                success: function(data){
+                    exibirForm(data)
+                }
+            })
+        }
+
 
         function exibirMensagem(data) {
             if (data.erro){
